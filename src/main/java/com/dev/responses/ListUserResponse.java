@@ -1,10 +1,11 @@
 package com.dev.responses;
 
+import com.dev.objects.Friendship;
 import com.dev.objects.User;
 
 import java.util.List;
 
-public class ListUserResponse extends BasicResponse{
+public class ListUserResponse extends BasicResponse {
 
     private List<User> users;
 

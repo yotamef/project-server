@@ -64,6 +64,7 @@ public class Persist {
         return user;
     }
 
+
     public boolean friendshipExists(User requester, User accepter) {
         Session session = sessionFactory.openSession();
         boolean exists = !session.createQuery("FROM Friendship WHERE requester = :requester AND accepter = :accepter", Friendship.class)
@@ -77,8 +78,14 @@ public class Persist {
 
     @Transactional
     public BasicResponse insertUser(String username, String password, String repeatPassword) {
-        if (username == null || password == null || repeatPassword == null) {
-            return new BasicResponse(false, Errors.ERROR_MISSING_FIELDS);
+        if (username == null) {
+            return new BasicResponse(false, ERROR_NO_USERNAME);
+        }
+        if (password == null) {
+            return new BasicResponse(false, ERROR_NO_PASSWORD);
+        }
+        if (repeatPassword == null) {
+            return new BasicResponse(false, ERROR_NO_REPEAT_PASSWORD);
         }
         if (!password.equals(repeatPassword)) {
             return new BasicResponse(false, Errors.ERROR_PASSWORD_NOT_MATCH);
@@ -119,6 +126,9 @@ public class Persist {
     @Transactional
     public ListUserResponse searchUser(String secretFrom, String partOfUsername) {
         User requestingUser = getUserBySecret(secretFrom);
+        if (partOfUsername == null) {
+            return new ListUserResponse(false, ERROR_NO_PART_OF_USERNAME, List.of());
+        }
         if (requestingUser == null) {
             return new ListUserResponse(false, ERROR_NO_SUCH_SECRET, List.of());
         }
@@ -207,6 +217,30 @@ public class Persist {
         session.close();
 
         return new BasicResponse(true, Errors.NO_ERRORS);
+    }
+
+    @Transactional
+    public ListUserResponse getRequestsToAccept(String secret) {
+        Session session = sessionFactory.openSession();
+        User accepter = getUserBySecret(secret);
+        List<Friendship> friendships = session.createQuery("FROM Friendship WHERE accepter = :accepter AND status = 2", Friendship.class)
+                .setParameter("accepter", accepter)
+                .list();
+        if (friendships == null) {
+            return new ListUserResponse(false, ERROR_NO_FRIEND_REQUESTS, List.of());
+        } else {
+            return new ListUserResponse(true, NO_ERRORS, getUsers(friendships));
+        }
+    }
+
+
+    @Transactional
+    public List<User> getUsers(List<Friendship> friendships) {
+        List<User> users = new ArrayList<>();
+        for (Friendship friendship : friendships) {
+            users.add(friendship.getRequester());
+        }
+        return users;
     }
 
     @Transactional
