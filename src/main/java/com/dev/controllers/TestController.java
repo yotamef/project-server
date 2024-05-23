@@ -1,14 +1,18 @@
 package com.dev.controllers;
 
 import com.dev.Persist;
+import com.dev.objects.Phase;
+import com.dev.objects.PlayerPhase;
 import com.dev.objects.User;
 import com.dev.responses.BasicResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.PostConstruct;
+import java.util.List;
 
 
 @RestController
@@ -55,6 +59,16 @@ public class TestController {
     @RequestMapping(value = "get-friends", method = {RequestMethod.GET, RequestMethod.POST})
     public BasicResponse getCurrentFriends(String secretFrom) {
         return persist.getCurrentFriends(secretFrom);
+    }
+
+    @RequestMapping(value = "add-play", method = {RequestMethod.GET, RequestMethod.POST})
+    public BasicResponse addPlay(String secret, String playName) {
+        return persist.addPlay(secret,playName);
+    }
+
+    @RequestMapping(value = "add-phase", method = {RequestMethod.GET, RequestMethod.POST})
+    public BasicResponse addPhase(String secret, String playName, int orderNum, List<PlayerPhase> playerPhases) {
+        return persist.addPhaseToPlay(secret,playName,orderNum,playerPhases);
     }
 
     @RequestMapping(value = "test", method = {RequestMethod.GET, RequestMethod.POST})

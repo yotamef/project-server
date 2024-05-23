@@ -21,4 +21,6 @@ public class Errors {
     public static final int ERROR_NO_FRIEND_REQUESTS = 15;
 
 
+    public static final int THERE_IS_ALREADY_PLAY_WITH_THIS_NAME = 16;
+    public static final int ERROR_NO_SUCH_PLAY = 17;
 }

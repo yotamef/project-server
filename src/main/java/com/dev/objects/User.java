@@ -26,6 +26,7 @@ public class User {
     private String secret;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Play> plays;
 
     @OneToMany(mappedBy = "requester", cascade = CascadeType.ALL)

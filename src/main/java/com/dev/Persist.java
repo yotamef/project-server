@@ -1,7 +1,6 @@
 package com.dev;
 
-import com.dev.objects.Friendship;
-import com.dev.objects.User;
+import com.dev.objects.*;
 import com.dev.responses.BasicResponse;
 import com.dev.responses.ListUserResponse;
 import com.dev.responses.LoginResponse;
@@ -29,6 +28,32 @@ public class Persist {
 
     public Session getQuerySession() {
         return this.sessionFactory.getCurrentSession();
+    }
+
+    private Session openSession() {
+        return sessionFactory.openSession();
+    }
+
+    private void closeSession(Session session) {
+        if (session != null && session.isOpen()) {
+            session.close();
+        }
+    }
+
+    private void beginTransaction(Session session) {
+        session.beginTransaction();
+    }
+
+    private void commitTransaction(Session session) {
+        if (session.getTransaction().isActive()) {
+            session.getTransaction().commit();
+        }
+    }
+
+    private void rollbackTransaction(Session session) {
+        if (session.getTransaction().isActive()) {
+            session.getTransaction().rollback();
+        }
     }
 
     public void save(Object object) {
@@ -252,4 +277,94 @@ public class Persist {
             return new ListUserResponse(true, NO_ERRORS, user.getCurrentFriends());
         }
     }
+
+
+    @Transactional
+    public BasicResponse addPlay(String secret, String playName) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        // Find the user by secret
+        User user = getUserBySecret(secret);
+        if (user == null) {
+            session.getTransaction().rollback();
+            session.close();
+            return new BasicResponse(false, Errors.ERROR_NO_SUCH_SECRET);
+        }
+
+        // Check if a play with the same name already exists for the user
+        Play play = getPlayByUserAndName(user,playName);
+
+        if (play!=null) {
+            session.getTransaction().rollback();
+            session.close();
+            return new BasicResponse(false, Errors.THERE_IS_ALREADY_PLAY_WITH_THIS_NAME);
+        }
+
+        // Create new play and add it to the user
+        Play newPlay = new Play(user, playName);
+        user.getPlays().add(newPlay);
+
+        // Save the new play
+        session.save(newPlay);
+        session.getTransaction().commit();
+        session.close();
+
+        return new BasicResponse(true, Errors.NO_ERRORS);
+    }
+
+    @Transactional
+    public BasicResponse addPhaseToPlay(String secret, String playName, int orderNum, List<PlayerPhase> playerPhases) {
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+        // Find the user by secret
+        User user = getUserBySecret(secret);
+        if (user == null) {
+            session.getTransaction().rollback();
+            session.close();
+            return new BasicResponse(false, Errors.ERROR_NO_SUCH_SECRET);
+        }
+
+        // Find the play by name and user
+        Play play = getPlayByUserAndName(user,playName);
+
+        if (play == null) {
+            session.getTransaction().rollback();
+            session.close();
+            return new BasicResponse(false, Errors.ERROR_NO_SUCH_PLAY);
+        }
+
+        // Create new phase and set the play
+        Phase newPhase = new Phase(orderNum, play);
+        play.getPhases().add(newPhase);
+
+        // Set the phase for each playerPhase and add to the phase
+        for (PlayerPhase playerPhase : playerPhases) {
+            playerPhase.setPhase(newPhase);
+            session.save(playerPhase); // Save each PlayerPhase
+        }
+
+        // Save the new phase
+        session.save(newPhase);
+        session.getTransaction().commit();
+        session.close();
+
+        return new BasicResponse(true, Errors.NO_ERRORS);
+    }
+
+
+    private Play getPlayByUserAndName(User user, String name) {
+        Session session = this.sessionFactory.openSession();
+        Play play = session.createQuery("FROM Play WHERE owner.id = :userId AND name = :playName", Play.class)
+                .setParameter("userId", user.getId())
+                .setParameter("playName", name)
+                .uniqueResult();
+        session.close();
+        return play;
+    }
+
+
+
+
 }

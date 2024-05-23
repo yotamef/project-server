@@ -1,5 +1,7 @@
 package com.dev.objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 
 @Entity
@@ -14,6 +16,7 @@ public class PlayerPhase {
 
     @ManyToOne
     @JoinColumn(name = "phase_id")
+    @JsonBackReference
     private Phase phase;
 
     @Column(name = "ball")
@@ -27,6 +30,18 @@ public class PlayerPhase {
 
     @Column(name = "action")
     private int action;
+
+    public PlayerPhase() {
+    }
+
+    public PlayerPhase(int playerNumber, Phase phase, boolean hasBall, int x, int y, int action) {
+        this.playerNumber = playerNumber;
+        this.phase = phase;
+        this.hasBall = hasBall;
+        this.x = x;
+        this.y = y;
+        this.action = action;
+    }
 
     public int getId() {
         return id;

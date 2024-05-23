@@ -1,5 +1,8 @@
 package com.dev.objects;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,9 +19,11 @@ public class Play {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonBackReference
     private User owner;
 
     @OneToMany(mappedBy = "play", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<Phase> phases;
 
 
