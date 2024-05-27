@@ -293,12 +293,16 @@ public class Persist {
         }
 
         // Check if a play with the same name already exists for the user
-        Play play = getPlayByUserAndName(user,playName);
+        Play play = getPlayByUserAndName(user, playName);
 
-        if (play!=null) {
+        if (play != null) {
             session.getTransaction().rollback();
             session.close();
             return new BasicResponse(false, Errors.THERE_IS_ALREADY_PLAY_WITH_THIS_NAME);
+        }
+
+        if (playName == null) {
+            return new BasicResponse(false, NO_PLAY_NAME);
         }
 
         // Create new play and add it to the user
@@ -327,7 +331,7 @@ public class Persist {
         }
 
         // Find the play by name and user
-        Play play = getPlayByUserAndName(user,playName);
+        Play play = getPlayByUserAndName(user, playName);
 
         if (play == null) {
             session.getTransaction().rollback();
@@ -363,8 +367,6 @@ public class Persist {
         session.close();
         return play;
     }
-
-
 
 
 }
