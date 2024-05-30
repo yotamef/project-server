@@ -346,7 +346,7 @@ public class Persist {
         // Set the phase for each playerPhase and add to the phase
         for (PlayerPhase playerPhase : playerPhases) {
             playerPhase.setPhase(newPhase);
-            session.save(playerPhase); // Save each PlayerPhase
+            session.save(playerPhase);
         }
 
         // Save the new phase

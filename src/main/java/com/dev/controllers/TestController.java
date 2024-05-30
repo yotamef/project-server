@@ -5,14 +5,17 @@ import com.dev.objects.Phase;
 import com.dev.objects.PlayerPhase;
 import com.dev.objects.User;
 import com.dev.responses.BasicResponse;
+import com.dev.responses.PlayerPhases;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @RestController
@@ -67,13 +70,29 @@ public class TestController {
     }
 
     @RequestMapping(value = "add-phase", method = {RequestMethod.GET, RequestMethod.POST})
-    public BasicResponse addPhase(String secret, String playName, int orderNum, List<PlayerPhase> playerPhases) {
-        return persist.addPhaseToPlay(secret,playName,orderNum,playerPhases);
+    public void addPhase(String secret, String playName, Integer orderNum, List<PlayerPhase> playerPhases) {
+        System.out.println("------------");
+        System.out.println("succeed");
+        System.out.println("----------------");
+        // Perform your logic here
+        // return persist.addPhaseToPlay(secret, playName, orderNum, playerPhases);
     }
 
+
     @RequestMapping(value = "test", method = {RequestMethod.GET, RequestMethod.POST})
-    public User test() {
-        return persist.getUserByUsername("yotam");
+    public void test(HttpServletRequest request) {
+        try {
+            String bodyData = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
+            ObjectMapper objectMapper = new ObjectMapper();
+            PlayerPhases myObject = objectMapper.readValue(bodyData, PlayerPhases.class);
+            System.out.println(bodyData);
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("------------");
+        System.out.println("succeed");
+        System.out.println("----------------");
     }
 
 
