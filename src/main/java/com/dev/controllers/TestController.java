@@ -5,6 +5,7 @@ import com.dev.objects.Phase;
 import com.dev.objects.PlayerPhase;
 import com.dev.objects.User;
 import com.dev.responses.BasicResponse;
+import com.dev.responses.PlayerPhaseWithoutPhase;
 import com.dev.responses.PlayerPhases;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -69,31 +70,37 @@ public class TestController {
         return persist.addPlay(secret,playName);
     }
 
+
+
     @RequestMapping(value = "add-phase", method = {RequestMethod.GET, RequestMethod.POST})
-    public void addPhase(String secret, String playName, Integer orderNum, List<PlayerPhase> playerPhases) {
-        System.out.println("------------");
-        System.out.println("succeed");
-        System.out.println("----------------");
-        // Perform your logic here
-        // return persist.addPhaseToPlay(secret, playName, orderNum, playerPhases);
-    }
-
-
-    @RequestMapping(value = "test", method = {RequestMethod.GET, RequestMethod.POST})
-    public void test(HttpServletRequest request) {
+    public BasicResponse test(HttpServletRequest request) {
         try {
             String bodyData = request.getReader().lines().collect(Collectors.joining(System.lineSeparator()));
             ObjectMapper objectMapper = new ObjectMapper();
             PlayerPhases myObject = objectMapper.readValue(bodyData, PlayerPhases.class);
             System.out.println(bodyData);
 
+            String secret = myObject.getSecret();
+            String playName = myObject.getPlayName();
+            int orderNum = myObject.getOrderNum();
+            List<PlayerPhaseWithoutPhase> playerPhases = myObject.getPlayerPhases();
+
+            System.out.println("Secret: " + secret);
+            System.out.println("PlayName: " + playName);
+            System.out.println("OrderNum: " + orderNum);
+            System.out.println("PlayerPhases: " + playerPhases);
+
+
+            return persist.addPhaseToPlay(secret, playName, orderNum, playerPhases);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("------------");
-        System.out.println("succeed");
-        System.out.println("----------------");
+
     }
+
+
+
+
 
 
 }

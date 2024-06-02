@@ -4,6 +4,7 @@ import com.dev.objects.*;
 import com.dev.responses.BasicResponse;
 import com.dev.responses.ListUserResponse;
 import com.dev.responses.LoginResponse;
+import com.dev.responses.PlayerPhaseWithoutPhase;
 import com.dev.utils.Errors;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -318,7 +319,7 @@ public class Persist {
     }
 
     @Transactional
-    public BasicResponse addPhaseToPlay(String secret, String playName, int orderNum, List<PlayerPhase> playerPhases) {
+    public BasicResponse addPhaseToPlay(String secret, String playName, int orderNum, List<PlayerPhaseWithoutPhase> playerPhases) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
@@ -344,8 +345,13 @@ public class Persist {
         play.getPhases().add(newPhase);
 
         // Set the phase for each playerPhase and add to the phase
-        for (PlayerPhase playerPhase : playerPhases) {
-            playerPhase.setPhase(newPhase);
+        for (PlayerPhaseWithoutPhase playerPhaseWithoutPhase : playerPhases) {
+            PlayerPhase playerPhase = new PlayerPhase(playerPhaseWithoutPhase.getPlayerNumber(),
+                    newPhase,
+                    playerPhaseWithoutPhase.isHasBall(),
+                    playerPhaseWithoutPhase.getX(),
+                    playerPhaseWithoutPhase.getY(),
+                    playerPhaseWithoutPhase.getAction());
             session.save(playerPhase);
         }
 
@@ -365,6 +371,17 @@ public class Persist {
                 .setParameter("playName", name)
                 .uniqueResult();
         session.close();
+        return play;
+    }
+
+    private Play getPlay(String playName) {
+        Session session = this.sessionFactory.openSession();
+        Play play = session.createQuery("FROM Play WHERE name = :playName", Play.class)
+                .setParameter("playName", playName)
+                .uniqueResult();
+        session.close();
+
+
         return play;
     }
 
