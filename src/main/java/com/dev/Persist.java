@@ -166,6 +166,10 @@ public class Persist {
                 .getResultList();
         session.close();
 
+        if (users.isEmpty()) {
+            return new ListUserResponse(false, ERROR_NO_SEARCH_RESULT, null);
+        }
+
         return new ListUserResponse(true, Errors.NO_ERRORS, users);
     }
 
@@ -252,8 +256,8 @@ public class Persist {
         List<Friendship> friendships = session.createQuery("FROM Friendship WHERE accepter = :accepter AND status = 2", Friendship.class)
                 .setParameter("accepter", accepter)
                 .list();
-        if (friendships == null) {
-            return new ListUserResponse(false, ERROR_NO_FRIEND_REQUESTS, List.of());
+        if (friendships.isEmpty()) {
+            return new ListUserResponse(false, ERROR_NO_FRIEND_REQUESTS, null);
         } else {
             return new ListUserResponse(true, NO_ERRORS, getUsers(friendships));
         }
