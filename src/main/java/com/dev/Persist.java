@@ -355,6 +355,8 @@ public class Persist {
                     playerPhaseWithoutPhase.isHasBall(),
                     playerPhaseWithoutPhase.getX(),
                     playerPhaseWithoutPhase.getY(),
+                    playerPhaseWithoutPhase.getCx(),
+                    playerPhaseWithoutPhase.getCy(),
                     playerPhaseWithoutPhase.getAction());
             session.save(playerPhase);
         }

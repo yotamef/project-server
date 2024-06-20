@@ -17,16 +17,22 @@ public class PlayerPhaseWithoutPhase {
 
     private int y;
 
+    private int cx;
+
+    private int cy;
+
     private int action;
 
     public PlayerPhaseWithoutPhase() {
     }
 
-    public PlayerPhaseWithoutPhase(int playerNumber, boolean hasBall, int x, int y, int action) {
+    public PlayerPhaseWithoutPhase(int playerNumber, boolean hasBall, int x, int y, int cx, int cy, int action) {
         this.playerNumber = playerNumber;
         this.hasBall = hasBall;
         this.x = x;
         this.y = y;
+        this.cx = cx;
+        this.cy = cy;
         this.action = action;
     }
 
@@ -68,5 +74,21 @@ public class PlayerPhaseWithoutPhase {
 
     public void setAction(int action) {
         this.action = action;
+    }
+
+    public int getCx() {
+        return cx;
+    }
+
+    public void setCx(int cx) {
+        this.cx = cx;
+    }
+
+    public int getCy() {
+        return cy;
+    }
+
+    public void setCy(int cy) {
+        this.cy = cy;
     }
 }
