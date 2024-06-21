@@ -276,11 +276,11 @@ public class Persist {
     @Transactional
     public ListUserResponse getCurrentFriends(String secret) {
         User user = getUserBySecret(secret);
-        if (user == null) {
+        if (user == null)
             return new ListUserResponse(false, ERROR_NO_SUCH_SECRET, List.of());
-        } else {
-            return new ListUserResponse(true, NO_ERRORS, user.getCurrentFriends());
-        }
+        else if (user.getCurrentFriends().isEmpty())
+            return new ListUserResponse(false, NO_FRIENDS, null);
+        return new ListUserResponse(true, NO_ERRORS, user.getCurrentFriends());
     }
 
 

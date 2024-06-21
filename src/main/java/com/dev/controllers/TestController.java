@@ -70,8 +70,6 @@ public class TestController {
         return persist.addPlay(secret,playName);
     }
 
-
-
     @RequestMapping(value = "add-phase", method = {RequestMethod.GET, RequestMethod.POST})
     public BasicResponse test(HttpServletRequest request) {
         try {

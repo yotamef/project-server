@@ -19,10 +19,10 @@ public class Errors {
     public static final int ERROR_FRIENDSHIP_DOESNT_EXIST = 13;
     public static final int ERROR_NO_PART_OF_USERNAME = 14;
     public static final int ERROR_NO_FRIEND_REQUESTS = 15;
-
+    public static final int NO_FRIENDS = 20;
     public static final int ERROR_NO_SEARCH_RESULT = 19;
-
     public static final int THERE_IS_ALREADY_PLAY_WITH_THIS_NAME = 16;
     public static final int NO_PLAY_NAME = 18;
     public static final int ERROR_NO_SUCH_PLAY = 17;
+
 }
