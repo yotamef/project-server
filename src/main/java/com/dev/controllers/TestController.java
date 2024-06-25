@@ -2,6 +2,7 @@ package com.dev.controllers;
 
 import com.dev.Persist;
 import com.dev.objects.Phase;
+import com.dev.objects.Play;
 import com.dev.objects.PlayerPhase;
 import com.dev.objects.User;
 import com.dev.responses.BasicResponse;
@@ -96,7 +97,12 @@ public class TestController {
 
     }
 
-
+    @RequestMapping(value = "get-play", method = {RequestMethod.GET, RequestMethod.POST})
+    public Play getPlay(String secret, String playName) {
+        //TODO
+        //validates that user is approved to get the play
+        return persist.getPlay(playName);
+    }
 
 
 

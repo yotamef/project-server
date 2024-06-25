@@ -380,7 +380,7 @@ public class Persist {
         return play;
     }
 
-    private Play getPlay(String playName) {
+    public Play getPlay(String playName) {
         Session session = this.sessionFactory.openSession();
         Play play = session.createQuery("FROM Play WHERE name = :playName", Play.class)
                 .setParameter("playName", playName)
