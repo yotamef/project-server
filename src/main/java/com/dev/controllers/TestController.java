@@ -6,6 +6,7 @@ import com.dev.objects.Play;
 import com.dev.objects.PlayerPhase;
 import com.dev.objects.User;
 import com.dev.responses.BasicResponse;
+import com.dev.responses.ListPlayResponse;
 import com.dev.responses.PlayerPhaseWithoutPhase;
 import com.dev.responses.PlayerPhases;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -68,7 +69,12 @@ public class TestController {
 
     @RequestMapping(value = "add-play", method = {RequestMethod.GET, RequestMethod.POST})
     public BasicResponse addPlay(String secret, String playName) {
-        return persist.addPlay(secret,playName);
+        return persist.addPlay(secret, playName);
+    }
+
+    @RequestMapping(value = "get-user-plays", method = {RequestMethod.GET, RequestMethod.POST})
+    public BasicResponse getUserPlays(String secret) {
+        return persist.getUserPlays(secret);
     }
 
     @RequestMapping(value = "add-phase", method = {RequestMethod.GET, RequestMethod.POST})
@@ -97,14 +103,12 @@ public class TestController {
 
     }
 
-    @RequestMapping(value = "get-play", method = {RequestMethod.GET, RequestMethod.POST})
-    public Play getPlay(String secret, String playName) {
-        //TODO
-        //validates that user is approved to get the play
-        return persist.getPlay(playName);
-    }
-
-
+//    @RequestMapping(value = "get-play", method = {RequestMethod.GET, RequestMethod.POST})
+//    public Play getPlay(String secret, String playName) {
+//        //TODO
+//        //validates that user is approved to get the play
+//        return persist.getPlay(playName);
+//    }
 
 
 }

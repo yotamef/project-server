@@ -9,6 +9,7 @@ public class ListUserResponse extends BasicResponse {
 
     private List<User> users;
 
+
     public ListUserResponse(boolean success, Integer errorCode, List<User> users) {
         super(success, errorCode);
         this.users = users;

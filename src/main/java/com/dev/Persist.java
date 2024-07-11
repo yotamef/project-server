@@ -1,10 +1,7 @@
 package com.dev;
 
 import com.dev.objects.*;
-import com.dev.responses.BasicResponse;
-import com.dev.responses.ListUserResponse;
-import com.dev.responses.LoginResponse;
-import com.dev.responses.PlayerPhaseWithoutPhase;
+import com.dev.responses.*;
 import com.dev.utils.Errors;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -380,7 +377,15 @@ public class Persist {
         return play;
     }
 
-    public Play getPlay(String playName) {
+
+    public ListPlayResponse getUserPlays(String secret) {
+        User user = getUserBySecret(secret);
+        if (user.getPlays().isEmpty())
+            return new ListPlayResponse(false, NO_FRIENDS, null);
+        return new ListPlayResponse(true, NO_ERRORS, user.getPlays());
+    }
+
+    private Play getPlay(String playName) {
         Session session = this.sessionFactory.openSession();
         Play play = session.createQuery("FROM Play WHERE name = :playName", Play.class)
                 .setParameter("playName", playName)
