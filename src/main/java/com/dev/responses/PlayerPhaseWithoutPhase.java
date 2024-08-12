@@ -13,20 +13,20 @@ public class PlayerPhaseWithoutPhase {
 
     private boolean hasBall;
 
-    private int x;
+    private double x;
 
-    private int y;
+    private double y;
 
-    private int cx;
+    private double cx;
 
-    private int cy;
+    private double cy;
 
     private int action;
 
     public PlayerPhaseWithoutPhase() {
     }
 
-    public PlayerPhaseWithoutPhase(int playerNumber, boolean hasBall, int x, int y, int cx, int cy, int action) {
+    public PlayerPhaseWithoutPhase(int playerNumber, boolean hasBall, double x, double y, double cx, double cy, int action) {
         this.playerNumber = playerNumber;
         this.hasBall = hasBall;
         this.x = x;
@@ -52,20 +52,36 @@ public class PlayerPhaseWithoutPhase {
         this.hasBall = hasBall;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
+    }
+
+    public double getCx() {
+        return cx;
+    }
+
+    public void setCx(double cx) {
+        this.cx = cx;
+    }
+
+    public double getCy() {
+        return cy;
+    }
+
+    public void setCy(double cy) {
+        this.cy = cy;
     }
 
     public int getAction() {
@@ -74,21 +90,5 @@ public class PlayerPhaseWithoutPhase {
 
     public void setAction(int action) {
         this.action = action;
-    }
-
-    public int getCx() {
-        return cx;
-    }
-
-    public void setCx(int cx) {
-        this.cx = cx;
-    }
-
-    public int getCy() {
-        return cy;
-    }
-
-    public void setCy(int cy) {
-        this.cy = cy;
     }
 }

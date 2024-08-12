@@ -26,16 +26,16 @@ public class PlayerPhase {
     private boolean hasBall;
 
     @Column(name = "x")
-    private int x;
+    private double x;
 
     @Column(name = "y")
-    private int y;
+    private double y;
 
     @Column(name = "cx")
-    private int cx;
+    private double cx;
 
     @Column(name = "cy")
-    private int cy;
+    private double cy;
 
 
     @Column(name = "action")
@@ -44,7 +44,7 @@ public class PlayerPhase {
     public PlayerPhase() {
     }
 
-    public PlayerPhase(int playerNumber, Phase phase, boolean hasBall, int x, int y, int cx, int cy, int action) {
+    public PlayerPhase(int playerNumber, Phase phase, boolean hasBall, double x, double y, double cx, double cy, int action) {
         this.playerNumber = playerNumber;
         this.phase = phase;
         this.hasBall = hasBall;
@@ -87,20 +87,36 @@ public class PlayerPhase {
         this.hasBall = hasBall;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(int x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    public void setY(int y) {
+    public void setY(double y) {
         this.y = y;
+    }
+
+    public double getCx() {
+        return cx;
+    }
+
+    public void setCx(double cx) {
+        this.cx = cx;
+    }
+
+    public double getCy() {
+        return cy;
+    }
+
+    public void setCy(double cy) {
+        this.cy = cy;
     }
 
     public int getAction() {
@@ -109,21 +125,5 @@ public class PlayerPhase {
 
     public void setAction(int action) {
         this.action = action;
-    }
-
-    public int getCx() {
-        return cx;
-    }
-
-    public void setCx(int cx) {
-        this.cx = cx;
-    }
-
-    public int getCy() {
-        return cy;
-    }
-
-    public void setCy(int cy) {
-        this.cy = cy;
     }
 }

@@ -68,8 +68,8 @@ public class TestController {
     }
 
     @RequestMapping(value = "add-play", method = {RequestMethod.GET, RequestMethod.POST})
-    public BasicResponse addPlay(String secret, String playName) {
-        return persist.addPlay(secret, playName);
+    public BasicResponse addPlay(String secret, String playName, int defense) {
+        return persist.addPlay(secret, playName,defense);
     }
 
     @RequestMapping(value = "get-user-plays", method = {RequestMethod.GET, RequestMethod.POST})

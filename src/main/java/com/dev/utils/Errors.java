@@ -24,6 +24,6 @@ public class Errors {
     public static final int THERE_IS_ALREADY_PLAY_WITH_THIS_NAME = 16;
     public static final int NO_PLAY_NAME = 18;
     public static final int ERROR_NO_SUCH_PLAY = 17;
-    public static final int ERROR_NO_PLAY = 21;
+    public static final int NO_DEFENSE_SELECTED = 21;
 
 }

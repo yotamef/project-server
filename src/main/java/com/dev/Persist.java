@@ -282,7 +282,7 @@ public class Persist {
 
 
     @Transactional
-    public BasicResponse addPlay(String secret, String playName) {
+    public BasicResponse addPlay(String secret, String playName, int defense) {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
 
@@ -307,8 +307,12 @@ public class Persist {
             return new BasicResponse(false, NO_PLAY_NAME);
         }
 
+        if (defense == 0) {
+            return new BasicResponse(false, NO_DEFENSE_SELECTED);
+        }
+
         // Create new play and add it to the user
-        Play newPlay = new Play(user, playName);
+        Play newPlay = new Play(user, playName, defense);
         user.getPlays().add(newPlay);
 
         // Save the new play

@@ -26,13 +26,17 @@ public class Play {
     @JsonManagedReference
     private List<Phase> phases;
 
+    @Column(name = "defense")
+    private int defense;
+
 
 
     public Play() {}
 
-    public Play(User owner, String playName) {
+    public Play(User owner, String playName, int defense) {
         this.owner = owner;
         this.name = playName;
+        this.defense = defense;
     }
 
     public String getName() {
@@ -65,5 +69,13 @@ public class Play {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public int getDefense() {
+        return defense;
+    }
+
+    public void setDefense(int defense) {
+        this.defense = defense;
     }
 }
